@@ -1,0 +1,26 @@
+# my global config
+global:
+  scrape_interval: 15s
+  evaluation_interval: 30s
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+  - static_configs:
+      - targets:
+        - localhost:9093
+
+rule_files:
+  - "rules/*.yml"
+
+scrape_configs:
+  - job_name: "alert"
+    honor_timestamps: true
+    scrape_interval: 3s
+    scrape_timeout: 3s
+    metrics_path: /
+    scheme: http
+    static_configs:
+      - targets: ["localhost:26000"]
+        labels:
+          app: maker_dao

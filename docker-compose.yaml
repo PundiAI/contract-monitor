@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+
+  alertmanager:
+    container_name: monitor-alertmanager
+    image: prom/alertmanager:v0.25.0
+    volumes:
+      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+      - '--web.external-url=http://127.0.0.1:9093'
+      - '--log.level=debug'
+    ports:
+      - 9093:9093
+    restart: always
+    networks:
+      - default
+
+  prometheus:
+    container_name: monitor-prometheus
+    image: prom/prometheus:v2.37.7
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--storage.tsdb.path=/prometheus'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: always
+    networks:
+      - default
+
+  monitor:
+    container_name: monitor
+    image: ghcr.io/coastdao/monitor:latest
+    volumes:
+      - ./config/:/app/config/
+      - ./env/:/app/env/
+      - ./abis/:/app/src/contracts/abis/
+    ports:
+      - 26660:26660
+    restart: always
+    networks:
+      - default
+
+networks:
+  default:
+    external: false
