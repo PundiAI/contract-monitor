@@ -4,7 +4,7 @@ require('dotenv').config();
 const path = require('path');
 const OpenJsonFileOut = require("./tools.js");
 const config = path.join(__dirname, '../config/config_contracts.json')
-const chainContractsDates = OpenJsonFileOut(config);
+const chainContractsDates = OpenJsonFileOut(process.env.CONFIG_SUBGRAPH_PATH || config);
 const ETHERSCAN_API_URL = 'https://api.etherscan.io/api';
 // becase if you use node getAbis.js, it can't get the env value,so it can write the apikey here
 const EthScanApiKey = process.env.EthScanApiKey || 'YourApiKeyToken';

@@ -2,13 +2,16 @@ const {CreateNewGuage, ToStringSafe, SafeParseNumber, OpenJsonFile} = require(".
 const axios = require('axios')
 require('dotenv').config();
 const path = require('path');
+const {GetENV} = require("../tools/cmd");
 const config = path.join(__dirname, '../../config/config_subgraph.json')
-let jsonData = OpenJsonFile(config);
+const CONFIG_SUBGRAPH_PATH = GetENV('CONFIG_SUBGRAPH_PATH') || process.env.CONFIG_SUBGRAPH_PATH || config;
+console.log(CONFIG_SUBGRAPH_PATH)
+let jsonData = OpenJsonFile(CONFIG_SUBGRAPH_PATH);
 
 // query graph node subgraph data
 // use axios to send post request and return data
-QueryGRN = (body) => {
-    let data = axios.post(process.env.SubgraphApiUrl, {
+QueryGRN = (body, SUBGRAPH_URL) => {
+    let data = axios.post(SUBGRAPH_URL, {
         query: body
     })
         .then((res) => {
@@ -52,8 +55,8 @@ function SplicingQueryStatements() {
 
 // batch production guage in prometheus
 // Recurring call to update prometheus gauge value
-async function SubgraphBatchProductionMetric (graphQueryStatement, register) {
-    const SqlDate = await QueryGRN(graphQueryStatement);
+async function SubgraphBatchProductionMetric(graphQueryStatement, register, SUBGRAPH_URL) {
+    const SqlDate = await QueryGRN(graphQueryStatement, SUBGRAPH_URL);
     jsonData.forEach(table => {
         const {table: tableName} = table;
         table.metric.forEach(metric => {

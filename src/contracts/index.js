@@ -2,17 +2,11 @@ const Web3 = require("web3");
 require('dotenv').config();
 const {CreateNewGuage, SafeParseNumber, OpenJsonFile} = require("../tools/tools");
 const path = require('path');
+const {GetENV} = require("../tools/cmd");
 const config = path.join(__dirname, '../../config/config_contracts.json')
-const chainContractsDates = OpenJsonFile(config);
+const CONFIG_CONTRACTS_PATH = GetENV('CONFIG_CONTRACTS_PATH')||process.env.CONFIG_CONTRACTS_PATH || config;
+const chainContractsDates = OpenJsonFile(CONFIG_CONTRACTS_PATH);
 
-// this is the chain data, it can be used to connect to the chain, Additional networks can be added in the future
-// The testchain is the local chain or Chain that is not displayed but supports EVM
-const chainData = {
-    "ethereum": "https://mainnet.infura.io/v3/" + process.env.InfuraKey,
-    "goerli": "https://goerli.infura.io/v3/" + process.env.InfuraKey,
-    "fuji": "https://avalanche-fuji.infura.io/v3/" + process.env.InfuraKey,
-    "testchain": process.env.TestChain
-}
 
 // traverse all contract, return targets array
 // Selective input to call contract input parameter
@@ -43,10 +37,10 @@ async function traverseAllContract(contract, Data) {
 
 // init web3 and contract, return contract array
 // Run during project initialization(src/index.js)
-function NewWeb3AndContract() {
+function NewWeb3AndContract(WEB3_URL) {
     const Contracts = [];
     for (let i = 0; i < chainContractsDates.length; i++) {
-        const web3 = new Web3(chainData[chainContractsDates[i].network]);
+        const web3 = new Web3(WEB3_URL);
         const contractAbi = require(chainContractsDates[i].abi_path);
         const contract = new web3.eth.Contract(contractAbi, chainContractsDates[i].address);
         Contracts.push(contract);

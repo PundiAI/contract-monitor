@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/index.js",
     "get-abis": "node scripts/get_abi.js",
-    "init-rules": "node scripts/init_alert_rules.js"
+    "init-rules": "node scripts/init_alert_rules.js",
+    "helps": "node src/tools/help.js"
   },
   "license": "apache-2.0",
   "dependencies": {

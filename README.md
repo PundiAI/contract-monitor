@@ -21,14 +21,14 @@
     - write config_contract.json
 
 - in script folder
-    - yarn get-abis  or   node scripts/get_abi.js 
+    - yarn get-abis  or   node scripts/get_abi.js
     - yarn init-rules    or   node scripts/init_alert_rules.js
 
-- write .env
+- write .env or command
 
 - cp abis to /src/contracts
 
-- yarn start 
+- yarn start
 
 ## config_subgraph.json
 
@@ -52,28 +52,28 @@ detailed description: [contract docs](https://github.com/coastdao/monitor/blob/c
 
 ## .env
 
-- InfuraKey: infura key
-- SubgraphUrl: subgraph url
-- PORT: prometheus port
-- EthScanApiKey: etherscan api key
-- TestChain: testchain url
-- AppName: app name
-- IntervalTime: interval time (search subgraph and contract time & 10000 => 10s 60000 => 1min)
-- SubgraphSwitch: 1 or 0 (1=>open subgraph 0=>close subgraph)(default 1)
-- ContractsSwitch: 1 or 0 (1=>open contracts 0=>close contracts)(default 1)
+- PORT: prometheus port (default 26666)
+- WEB3_URL: WEB3 URL
+- APP_NAME: app name
+- INTERVAL_TIME：interval time (search subgraph and contract time & 1 => 1m,default 1m)
+- SUBGRAPH_ENABLE：1 or 0 (1=>open subgraph 0=>close subgraph)(default 1)
+- CONTRACTS_ENABLE：1 or 0 (1=>open contracts 0=>close contracts)(default 1)
+- SUBGRAPH_URL：subgraph url
+- CONFIG_SUBGRAPH_PATH：config subgraph path(default ./config/config_subgraph.json)
+- CONFIG_CONTRACTS_PATH：config contracts path(default ./config/config_contract.json)
 
 For example:
 
 ```env
-InfuraKey=''
-SubgraphApiUrl='http://localhost:8000/subgraphs/name/protofire/maker-protocol'
-PORT=26660
-EthScanApiKey=''
-TestChain='http://localhost:8545'
-AppName=''
-IntervalTime=10000
-SubgraphSwitch=1
-ContractsSwitch=1
+PORT=
+WEB3_URL=
+APP_NAME=
+INTERVAL_TIME=
+SUBGRAPH_ENABLE=
+CONTRACTS_ENABLE=
+SUBGRAPH_URL=
+CONFIG_SUBGRAPH_PATH=
+CONFIG_CONTRACTS_PATH=
 ```
 
 ## docker
@@ -91,3 +91,32 @@ ContractsSwitch=1
 - docker-compose
     - docker-compose up -d
 
+## help
+
+```shell
+    yarn helps
+```
+
+Usage: yarn start [options]
+
+Options:
+--PORT=<port>                           The port number
+--APP_NAME=<app_name>                   The application name
+--WEB3_URL=<web3_url>                   The Web3 URL
+--INTERVAL_TIME=<interval_time>         The interval time
+--SUBGRAPH_ENABLE=<subgraph_enable>     Enable/disable 1/0 Subgraph
+--CONTRACTS_ENABLE=<contracts_enable>   Enable/disable 1/0 Contracts
+--SUBGRAPH_URL=<subgraph_url>           The Subgraph URL
+--CONFIG_CONTRACTS_PATH=<config_contracts_path> The config contracts path
+--CONFIG_SUBGRAPH_PATH=<config_subgraph_path> The config subgraph path
+
+Examples:
+yarn start                             Display help and usage instructions，write the configuration to the .env file
+yarn start --PORT=26666 --APP_NAME=myapp --WEB3_URL=http://example.com --INTERVAL_TIME=10 --SUBGRAPH_ENABLE=1 --CONTRACTS_ENABLE=1 --SUBGRAPH_URL=http://subgraph.example.com --CONFIG_CONTRACTS_PATH=/Home/config/config_contract.json --CONFIG_SUBGRAPH_PATH=/Home/config/config_subgraph.json
+
+Note: You can also pass the options as command-line arguments without the "--" prefix.
+
+
+
+yarn start --PORT=26666 --APP_NAME=maker_dao --WEB3_URL=http://localhost:8545 --INTERVAL_TIME=0.5 --SUBGRAPH_ENABLE=1 --CONTRACTS_ENABLE=1 --SUBGRAPH_URL=http://subgraph.example.com --CONFIG_CONTRACTS_PATH=/Home/config/config_contract.json --CONFIG_SUBGRAPH_PATH=/Home/config/config_subgraph.json
+```
