@@ -61,12 +61,12 @@ async function SubgraphBatchProductionMetric(graphQueryStatement, register, SUBG
         const {table: tableName} = table;
         table.metric.forEach(metric => {
             const {name: metricName, help: metricHelp, labels: metricLabels, field: metricField} = metric;
-            const gaugeTarget = register.getSingleMetric(metricName);
             const labelsName = [...metricLabels.map(label => label.name), 'id', 'table'];
             const number = SqlDate[tableName].length;
             for (let i = 0; i < number; i++) {
                 const labelsValue = [...metricLabels.map(label => label.value), ToStringSafe(SqlDate[tableName][i].id), tableName];
                 const value = SafeParseNumber(SqlDate[tableName][i][metricField]);
+                const gaugeTarget = register.getSingleMetric(metricName);
                 let gauge;
                 if (gaugeTarget) {
                     gauge = gaugeTarget;
