@@ -1,53 +1,54 @@
-# monitor
+# Contract Monitor
 
 ## Usage
 
-    1.yarn
-    2.yarn start
+```shell
+yarn
+yarn start
+```
 
 ## Description
 
-    this can open http://localhos:26680 prometheus
-    data from subgraph in graph node
-    use axios to get data from subgraph,and write to prometheus
+this can open http://localhos:26680 prometheus
+data from subgraph in graph node
+use axios to get data from subgraph,and write to prometheus
 
-    support solidity contracts pure and view query funcrion returns data turn into prometheus targets
-    support every evm chain
+support solidity contracts pure and view query funcrion returns data turn into prometheus targets
+support every evm chain
 
 ## How to use
 
 - write config folder
-    - write config_subgraph.json
-    - write config_contract.json
+    - write `config_subgraph.json`
+    - write `config_contract.json`
 
 - in script folder
-    - yarn get-abis  or   node scripts/get_abi.js
-    - yarn init-rules    or   node scripts/init_alert_rules.js
+    - `yarn get-abis` or `node scripts/get_abi.js`
+    - `yarn init-rules` or `node scripts/init_alert_rules.js`
 
-- write .env or command
+- write `.env` or command
 
-- cp abis to /src/contracts
+- cp abis to `/src/contracts`
 
-- yarn start
+- `yarn start`
 
 ## config_subgraph.json
 
-detailed description: [subgraph docs](https://github.com/coastdao/monitor/blob/coastdao/monitor/src/subgraph/README.md)
+detailed description: [subgraph docs](./src/subgraph/README.md)
 
 ## config_contract.json
 
-detailed description: [contract docs](https://github.com/coastdao/monitor/blob/coastdao/monitor/src/contracts/README.md)
+detailed description: [contract docs](./src/contracts/README.md)
 
 ## getAbis
 
-- it will get abi from config_contract.json and write to abis for monitor/
-    - if you not have functions field in config_contract.json, it can let all view && pure function in abis.
-- copy this folder to monitor/src/contracts(if you use docker please docker -v "$OUT_DIR/abis":/app/src/contracts/abis)
+- it will get abi from `config_contract.json` and write to abis directory.
+    - if you not have functions field in `config_contract.json`, it can let all view && pure function in abis.
+- copy this folder to `src/contracts`(if you use docker please docker -v "$OUT_DIR/abis":/app/src/contracts/abis)
 
 ## initRules
 
-- it will get alert_rules from config_subgraph.json and config_contract.json and write to rules for
-  monitor/prometheus/rules
+- it will get alert_rules from `config_subgraph.json` and `config_contract.json` and write to rules for `prometheus/rules`
     - it This is used to start prometheus server and add alert rules
 
 ## .env
@@ -59,8 +60,8 @@ detailed description: [contract docs](https://github.com/coastdao/monitor/blob/c
 - SUBGRAPH_ENABLE：1 or 0 (1=>open subgraph 0=>close subgraph)(default 1)
 - CONTRACTS_ENABLE：1 or 0 (1=>open contracts 0=>close contracts)(default 1)
 - SUBGRAPH_URL：subgraph url
-- CONFIG_SUBGRAPH_PATH：config subgraph path(default ./config/config_subgraph.json)
-- CONFIG_CONTRACTS_PATH：config contracts path(default ./config/config_contract.json)
+- CONFIG_SUBGRAPH_PATH：config subgraph path(default `./config/config_subgraph.json`)
+- CONFIG_CONTRACTS_PATH：config contracts path(default `./config/config_contract.json`)
 
 For example:
 
@@ -78,25 +79,36 @@ CONFIG_CONTRACTS_PATH=
 
 ## docker
 
-- dockerfile
-    - docker build -t ghcr.io/coastdao/monitor . or docker pull ghcr.io/coastdao/monitor:latest
-    - docker run -d \
+- docker
+
+```shell
+docker build -t ghcr.io/functionx/contract-monitor . 
+# or 
+docker pull ghcr.io/functionx/contract-monitor:latest
+```
+```shell
+docker run -d \
       -p 26660:26660 \
       -v "$OUT_DIR/config":/app/config \
       -v "$OUT_DIR/.env":/app/.env \
       -v "$OUT_DIR/abis":/app/src/contracts/abis \
-      --name monitor \
-      ghcr.io/coastdao/monitor:latest
+      --name contract-monitor \
+      ghcr.io/functionx/contract-monitor:latest
+```
 
 - docker-compose
-    - docker-compose up -d
+
+```shell
+docker-compose up -d
+```
 
 ## help
 
 ```shell
-    yarn helps
+yarn helps
 ```
 
+```
 Usage: yarn start [options]
 
 Options:
@@ -115,8 +127,6 @@ yarn start                             Display help and usage instructions，wri
 yarn start --PORT=26666 --APP_NAME=myapp --WEB3_URL=http://example.com --INTERVAL_TIME=10 --SUBGRAPH_ENABLE=1 --CONTRACTS_ENABLE=1 --SUBGRAPH_URL=http://subgraph.example.com --CONFIG_CONTRACTS_PATH=/Home/config/config_contract.json --CONFIG_SUBGRAPH_PATH=/Home/config/config_subgraph.json
 
 Note: You can also pass the options as command-line arguments without the "--" prefix.
-
-
 
 yarn start --PORT=26666 --APP_NAME=maker_dao --WEB3_URL=http://localhost:8545 --INTERVAL_TIME=0.5 --SUBGRAPH_ENABLE=1 --CONTRACTS_ENABLE=1 --SUBGRAPH_URL=http://subgraph.example.com --CONFIG_CONTRACTS_PATH=/Home/config/config_contract.json --CONFIG_SUBGRAPH_PATH=/Home/config/config_subgraph.json
 ```

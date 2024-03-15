@@ -2,27 +2,26 @@
 
 ## 1.what is this?
 
-    This is a simple tool to generate prometheus targets for view&&pure fun contracts.
+This is a simple tool to generate prometheus targets for view&&pure fun contracts.
 
 ## 2.how to use?
 
-    write this project root directory/config/config_contracts.json file
-    
-    yarn get-abis or node /scripts/get_abis.js
-        
-        if you abi cannot use Etherscan to pull,you can mkdir abis folder in root directory, and put your abi file in abis folder.
-        for example tree:
-        ```
-        .
-            └── abis
-                └── testchain
-                    ├── test2.json
-                    └── test.json
+write this project root directory/config/config_contracts.json file
 
-        ```
+yarn get-abis or node /scripts/get_abis.js
+    
+if you abi cannot use Etherscan to pull,you can mkdir abis folder in root directory, and put your abi file in abis folder.
+for example tree:
+```
+.
+    └── abis
+        └── testchain
+            ├── test2.json
+            └── test.json
+
+```
 
 ## 3.how to write config_contracts.json
-
 
 please input your want monitor contract config in this part.
 

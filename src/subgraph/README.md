@@ -1,17 +1,18 @@
 # subgraph search data to Prometheus targets
 
 ## 1.what is this?
-    this is a subgraph query data to Prometheus targets.
+
+this is a subgraph query data to Prometheus targets.
 
 ## 2.how to use it?
 
-    write this project root directory/config/config_subgraph.json file
+write this project root directory/config/config_subgraph.json file
 
 ## 3.config_subgraph.json
 
-    config_subgraph.json have three types,one is Single directory query，another is Multiple directory query，the last is Multiple directory condition query.
+config_subgraph.json have three types,one is Single directory query，another is Multiple directory query，the last is Multiple directory condition query.
 
-first
+* first
 ```json
     {
       "table": "systemStates",
@@ -50,7 +51,7 @@ first
     }
 }
 
-second 
+* second 
 
 ```json
     {
